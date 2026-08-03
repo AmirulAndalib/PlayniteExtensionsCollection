@@ -96,16 +96,21 @@ namespace JastUsaLibrary.JastUsaIntegration.Application.Services
 
             var products = await _apiClient.GetProductsAsync(token, cancellationToken);
             var gamesData = products.Select(product =>
-                new JastGameData(
-                    product.ProductName,
-                    product.ProductCode,
-                    product.GameId,
-                    product.Game.ApiRoute,
-                    product.Game.Translations.EnUs?.Id,
-                    product.Game.Translations.Ja?.Id,
-                    product.Game.Translations.ZhHans?.Id,
-                    product.Game.Translations.ZhHant?.Id
-                )).ToList();
+            {
+                var variant = product.Variant;
+                var game = product.Game;
+
+                return new JastGameData(
+                    variant.ProductName,
+                    variant.ProductCode,
+                    variant.GameId,
+                    game.ApiRoute,
+                    game.Translations.EnUs?.Id,
+                    game.Translations.Ja?.Id,
+                    game.Translations.ZhHans?.Id,
+                    game.Translations.ZhHant?.Id
+                );
+            }).ToList();
 
             return gamesData;
         }

@@ -45,7 +45,7 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
         public double AverageRating { get; set; }
 
         [SerializationPropertyName("images")]
-        public Image[] Images { get; set; }
+        public List<Image> Images { get; set; }
 
         [SerializationPropertyName("id")]
         public int ProductResponseId { get; set; }
@@ -63,7 +63,7 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
         public object[] Options { get; set; }
 
         [SerializationPropertyName("associations")]
-        public object[] Aassociations { get; set; }
+        public object[] Associations { get; set; }
 
         [SerializationPropertyName("createdAt")]
         public DateTimeOffset CreatedAt { get; set; }

@@ -23,6 +23,15 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
         [JsonProperty("products")]
         public Product[] Products { get; set; }
 
+        [JsonProperty("attributes")]
+        public object[] Attributes { get; set; }
+
+        [JsonProperty("taxons")]
+        public object[] Taxons { get; set; }
+
+        [JsonProperty("userGameTags")]
+        public object[] UserGameTags { get; set; }
+
         [JsonProperty("total")]
         public int Total { get; set; }
 
@@ -38,56 +47,14 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
         [JsonProperty("@type")]
         public ProductType Type { get; set; }
 
-        [JsonProperty("variants")]
-        public Variant[] Variants { get; set; }
-
-        [JsonProperty("variant")]
-        public Variant Variant { get; set; }
-    }
-
-    public class Variant
-    {
-        [JsonProperty("@id")]
-        public string Id { get; set; }
-
-        [JsonProperty("@type")]
-        public HydraMemberType Type { get; set; }
-
         [JsonProperty("game")]
         public Game Game { get; set; }
 
-        [JsonProperty("productName")]
-        public string ProductName { get; set; }
+        [JsonProperty("variants")]
+        public string[] Variants { get; set; }
 
-        [JsonProperty("productVariantName")]
-        public string ProductVariantName { get; set; }
-
-        [JsonProperty("productImage")]
-        public string ProductImage { get; set; }
-
-        [JsonProperty("productImageBackground")]
-        public string ProductImageBackground { get; set; }
-
-        [JsonProperty("platforms")]
-        public Platform[] Platforms { get; set; }
-
-        [JsonProperty("productCode")]
-        public string ProductCode { get; set; }
-
-        [JsonProperty("gameId")]
-        public int GameId { get; set; }
-
-        [JsonProperty("userGameTags")]
-        public List<UserGameTag> UserGameTags { get; set; }
-
-        [JsonProperty("hasPatches_en_US")]
-        public bool HasPatchesEnUs { get; set; }
-
-        [JsonProperty("hasPatches_zh_Hans")]
-        public bool HasPatchesZhHans { get; set; }
-
-        [JsonProperty("hasPatches_zh_Hant")]
-        public bool HasPatchesZhHant { get; set; }
+        [JsonProperty("variant")]
+        public Variant Variant { get; set; }
     }
 
     public class Game
@@ -100,6 +67,84 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
 
         [JsonProperty("translations")]
         public Translations Translations { get; set; }
+    }
+
+    public class Variant
+    {
+        [JsonProperty("@id")]
+        public string Id { get; set; }
+
+        [JsonProperty("@type")]
+        public HydraMemberType Type { get; set; }
+
+        [JsonProperty("productName")]
+        public string ProductName { get; set; }
+
+        [JsonProperty("productVariantName")]
+        public object ProductVariantName { get; set; }
+
+        [JsonProperty("platforms")]
+        public object[] Platforms { get; set; }
+
+        [JsonProperty("productId")]
+        public int ProductId { get; set; }
+
+        [JsonProperty("productCode")]
+        public string ProductCode { get; set; }
+
+        [JsonProperty("gameId")]
+        public int GameId { get; set; }
+
+        [JsonProperty("rating")]
+        public double Rating { get; set; }
+
+        [JsonProperty("productImages")]
+        public Dictionary<string, ProductImage> ProductImages { get; set; }
+
+        [JsonProperty("imageCdnUrl")]
+        public Uri ImageCdnUrl { get; set; }
+
+        [JsonProperty("userGameTags")]
+        public List<UserGameTag> UserGameTags { get; set; }
+    }
+
+    public class ProductImage
+    {
+        [JsonProperty("path")]
+        public string Path { get; set; }
+
+        [JsonProperty("url")]
+        public Uri Url { get; set; }
+
+        [JsonProperty("thumbnailUrl")]
+        public Uri ThumbnailUrl { get; set; }
+
+        [JsonProperty("blurHash")]
+        public string BlurHash { get; set; }
+
+        [JsonProperty("estimatedColor")]
+        public string EstimatedColor { get; set; }
+
+        [JsonProperty("matureContent")]
+        public bool MatureContent { get; set; }
+
+        [JsonProperty("thumbnails")]
+        public Thumbnails Thumbnails { get; set; }
+    }
+
+    public class Thumbnails
+    {
+        [JsonProperty("main")]
+        public Uri Main { get; set; }
+
+        [JsonProperty("tall")]
+        public Uri Tall { get; set; }
+
+        [JsonProperty("tallCatalog")]
+        public Uri TallCatalog { get; set; }
+
+        [JsonProperty("background")]
+        public Uri Background { get; set; }
     }
 
     public class Translations
@@ -119,6 +164,7 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
 
     public class Translation
     {
+
         [JsonProperty("@id")]
         public string ApiRoute { get; set; } ///api/v2/shop/account/game-translations/348
 
@@ -130,18 +176,6 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
 
         [JsonProperty("locale")]
         public Locale Locale { get; set; }
-    }
-
-    public class Platform
-    {
-        [JsonProperty("en_US", NullValueHandling = NullValueHandling.Ignore)]
-        public JastPlatforms EnUs { get; set; }
-
-        [JsonProperty("zh_Hans", NullValueHandling = NullValueHandling.Ignore)]
-        public JastPlatforms ZhHans { get; set; }
-
-        [JsonProperty("zh_Hant", NullValueHandling = NullValueHandling.Ignore)]
-        public JastPlatforms ZhHant { get; set; }
     }
 
     public class UserGameTag
