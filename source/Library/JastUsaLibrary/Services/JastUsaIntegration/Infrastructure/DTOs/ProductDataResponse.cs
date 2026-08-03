@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Playnite.SDK.Data;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,404 +13,687 @@ namespace JastUsaLibrary.Services.JastUsaIntegration.Infrastructure.DTOs
 {
     public class ProductResponse
     {
-        [SerializationPropertyName("@context")]
+        [JsonProperty("@context")]
         public string Context { get; set; }
 
-        [SerializationPropertyName("@id")]
+        [JsonProperty("@id")]
         public string Id { get; set; }
 
-        [SerializationPropertyName("@type")]
+        [JsonProperty("@type")]
         public string Type { get; set; }
 
-        [SerializationPropertyName("productESRB")]
-        public ProductEsrb ProductEsrb { get; set; }
+        [JsonProperty("productESRB")]
+        public object ProductEsrb { get; set; }
 
-        [SerializationPropertyName("sku")]
+        [JsonProperty("sku")]
         public string Sku { get; set; }
 
-        [SerializationPropertyName("releaseDate")]
-        public DateTime ReleaseDate { get; set; }
+        [JsonProperty("releaseDate")]
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime? ReleaseDate { get; set; }
 
-        [SerializationPropertyName("originalReleaseDate")]
+        [JsonProperty("originalReleaseDate")]
+        [JsonConverter(typeof(DateTimeConverter))]
         public DateTime? OriginalReleaseDate { get; set; }
 
-        [SerializationPropertyName("productTaxons")]
-        public string[] ProductTaxons { get; set; }
+        [JsonProperty("publishers")]
+        public Publisher[] Publishers { get; set; }
 
-        [SerializationPropertyName("mainTaxon")]
-        public string MainTaxon { get; set; }
+        [JsonProperty("studios")]
+        public Publisher[] Studios { get; set; }
 
-        [SerializationPropertyName("reviews")]
-        public object[] Reviews { get; set; }
+        [JsonProperty("state")]
+        public string State { get; set; }
 
-        [SerializationPropertyName("averageRating")]
+        [JsonProperty("demoProductLink")]
+        public object DemoProductLink { get; set; }
+
+        [JsonProperty("matureContentFlag")]
+        public bool MatureContentFlag { get; set; }
+
+        [JsonProperty("productTaxons")]
+        public ProductTaxon[] ProductTaxons { get; set; }
+
+        [JsonProperty("mainTaxon")]
+        public object MainTaxon { get; set; }
+
+        [JsonProperty("reviews")]
+        public Review[] Reviews { get; set; }
+
+        [JsonProperty("averageRating")]
         public double AverageRating { get; set; }
 
-        [SerializationPropertyName("images")]
+        [JsonProperty("images")]
         public List<Image> Images { get; set; }
 
-        [SerializationPropertyName("id")]
-        public int ProductResponseId { get; set; }
+        [JsonProperty("id")]
+        public long JastproductresponseId { get; set; }
 
-        [SerializationPropertyName("code")]
+        [JsonProperty("code")]
         public string Code { get; set; }
 
-        [SerializationPropertyName("attributes")]
-        public ProductResponseAttribute[] Attributes { get; set; }
+        [JsonProperty("attributes")]
+        public Attribute[] Attributes { get; set; }
 
-        [SerializationPropertyName("variants")]
+        [JsonProperty("variants")]
         public ProductResponseVariant[] Variants { get; set; }
 
-        [SerializationPropertyName("options")]
+        [JsonProperty("options")]
         public object[] Options { get; set; }
 
-        [SerializationPropertyName("associations")]
+        [JsonProperty("associations")]
         public object[] Associations { get; set; }
 
-        [SerializationPropertyName("createdAt")]
-        public DateTimeOffset CreatedAt { get; set; }
+        [JsonProperty("createdAt")]
+        public string CreatedAt { get; set; }
 
-        [SerializationPropertyName("updatedAt")]
-        public DateTimeOffset UpdatedAt { get; set; }
+        [JsonProperty("updatedAt")]
+        public string UpdatedAt { get; set; }
 
-        [SerializationPropertyName("translations")]
-        public Dictionary<string, ProductResponseTranslationData> Translations { get; set; }
+        [JsonProperty("translations")]
+        public JastproductresponseTranslations Translations { get; set; }
 
-        [SerializationPropertyName("shortDescription")]
-        public string ShortDescription { get; set; }
+        [JsonProperty("description")]
+        public string Description { get; set; }
 
-        [SerializationPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [SerializationPropertyName("description")]
-        public string Description { get; set; }
-        [SerializationPropertyName("slug")]
+        [JsonProperty("shortDescription")]
+        public string ShortDescription { get; set; }
+
+        [JsonProperty("slug")]
         public string Slug { get; set; }
 
-        [SerializationPropertyName("defaultVariant")]
+        [JsonProperty("defaultVariant")]
         public string DefaultVariant { get; set; }
 
-        [SerializationPropertyName("bonusPoints")]
+        [JsonProperty("price")]
+        public long Price { get; set; }
+
+        [JsonProperty("originalPrice")]
+        public long OriginalPrice { get; set; }
+
+        [JsonProperty("discount")]
+        public double Discount { get; set; }
+
+        [JsonProperty("isFree")]
+        public bool IsFree { get; set; }
+
+        [JsonProperty("promotionEndsAt")]
+        public DateTimeOffset? PromotionEndsAt { get; set; }
+
+        [JsonProperty("canonicalProductId")]
+        public object CanonicalProductId { get; set; }
+
+        [JsonProperty("bundlePricingMode")]
+        public string BundlePricingMode { get; set; }
+
+        [JsonProperty("canonicalProduct")]
+        public object CanonicalProduct { get; set; }
+
+        [JsonProperty("additionalContent")]
+        public object[] AdditionalContent { get; set; }
+
+        [JsonProperty("grantedProducts")]
+        public GrantedProduct[] GrantedProducts { get; set; }
+
+        [JsonProperty("reviewCount")]
+        public long ReviewCount { get; set; }
+
+        [JsonProperty("topReviews")]
+        public TopReview[] TopReviews { get; set; }
+
+        [JsonProperty("bundles")]
+        public object[] Bundles { get; set; }
+
+        [JsonProperty("bonusPoints")]
         public BonusPoints BonusPoints { get; set; }
+
+        //[SerializationPropertyName("@context")]
+        //public string Context { get; set; }
+
+        //[SerializationPropertyName("@id")]
+        //public string Id { get; set; }
+
+        //[SerializationPropertyName("@type")]
+        //public string Type { get; set; }
+
+        //[SerializationPropertyName("productESRB")]
+        //public ProductEsrb ProductEsrb { get; set; }
+
+        //[SerializationPropertyName("sku")]
+        //public string Sku { get; set; }
+
+        //[SerializationPropertyName("releaseDate")]
+        //public DateTime ReleaseDate { get; set; }
+
+        //[SerializationPropertyName("originalReleaseDate")]
+        //public DateTime? OriginalReleaseDate { get; set; }
+
+        //[SerializationPropertyName("productTaxons")]
+        //public string[] ProductTaxons { get; set; }
+
+        //[SerializationPropertyName("mainTaxon")]
+        //public string MainTaxon { get; set; }
+
+        //[SerializationPropertyName("reviews")]
+        //public object[] Reviews { get; set; }
+
+        //[SerializationPropertyName("averageRating")]
+        //public double AverageRating { get; set; }
+
+        //[SerializationPropertyName("images")]
+        //public List<Image> Images { get; set; }
+
+        //[SerializationPropertyName("id")]
+        //public int ProductResponseId { get; set; }
+
+        //[SerializationPropertyName("code")]
+        //public string Code { get; set; }
+
+        //[SerializationPropertyName("attributes")]
+        //public ProductResponseAttribute[] Attributes { get; set; }
+
+        //[SerializationPropertyName("variants")]
+        //public ProductResponseVariant[] Variants { get; set; }
+
+        //[SerializationPropertyName("options")]
+        //public object[] Options { get; set; }
+
+        //[SerializationPropertyName("associations")]
+        //public object[] Associations { get; set; }
+
+        //[SerializationPropertyName("createdAt")]
+        //public DateTimeOffset CreatedAt { get; set; }
+
+        //[SerializationPropertyName("updatedAt")]
+        //public DateTimeOffset UpdatedAt { get; set; }
+
+        //[SerializationPropertyName("translations")]
+        //public Dictionary<string, ProductResponseTranslationData> Translations { get; set; }
+
+        //[SerializationPropertyName("shortDescription")]
+        //public string ShortDescription { get; set; }
+
+        //[SerializationPropertyName("name")]
+        //public string Name { get; set; }
+
+        //[SerializationPropertyName("description")]
+        //public string Description { get; set; }
+        //[SerializationPropertyName("slug")]
+        //public string Slug { get; set; }
+
+        //[SerializationPropertyName("defaultVariant")]
+        //public string DefaultVariant { get; set; }
+
+        //[SerializationPropertyName("bonusPoints")]
+        //public BonusPoints BonusPoints { get; set; }
+    }
+
+    public class Attribute
+    {
+        [JsonProperty("@type")]
+        public string Type { get; set; }
+
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("localeCode")]
+        public string LocaleCode { get; set; }
+
+        [JsonProperty("value")]
+        public string Value { get; set; }
+
+        [JsonProperty("type")]
+        public string AttributeType { get; set; }
+
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("attribute_id")]
+        public long AttributeId { get; set; }
+
+        [JsonProperty("configuration")]
+        public object[] Configuration { get; set; }
     }
 
     public class BonusPoints
     {
-        [SerializationPropertyName("value")]
+        [JsonProperty("value")]
         public long Value { get; set; }
 
-        [SerializationPropertyName("amount")]
+        [JsonProperty("amount")]
         public long Amount { get; set; }
 
-        [SerializationPropertyName("currencyCode")]
+        [JsonProperty("currencyCode")]
         public string CurrencyCode { get; set; }
     }
 
-    public class ChannelPricing
+    public class GrantedProduct
     {
-        [SerializationPropertyName("@type")]
-        public string Type { get; set; }
+        [JsonProperty("id")]
+        public long Id { get; set; }
 
-        [SerializationPropertyName("channelCode")]
-        public string ChannelCode { get; set; }
+        [JsonProperty("code")]
+        public string Code { get; set; }
 
-        [SerializationPropertyName("price")]
-        public int Price { get; set; }
-
-        [SerializationPropertyName("originalPrice")]
-        public int? OriginalPrice { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 
     public class Image
     {
-        [SerializationPropertyName("@id")]
+        [JsonProperty("@id")]
         public string Id { get; set; }
 
-        [SerializationPropertyName("@type")]
+        [JsonProperty("@type")]
         public ImageType Type { get; set; }
 
-        [SerializationPropertyName("priority")]
+        [JsonProperty("priority")]
         public int? Priority { get; set; }
 
-        [SerializationPropertyName("id")]
-        public int ImageId { get; set; }
+        [JsonProperty("matureContent")]
+        public bool MatureContent { get; set; }
 
-        [SerializationPropertyName("type")]
-        public string ImageType { get; set; }
+        [JsonProperty("id")]
+        public long ImageId { get; set; }
 
-        [SerializationPropertyName("path")]
+        [JsonProperty("type")]
+        [JsonConverter(typeof(TypeEnumConverter))]
+        public TypeEnum ImageType { get; set; }
+
+        [JsonProperty("path")]
         public string Path { get; set; }
+
+        [JsonProperty("imagePlaceholder")]
+        public ImagePlaceholder ImagePlaceholder { get; set; }
     }
 
-    public class ProductEsrb
+    public class ImagePlaceholder
     {
-        [SerializationPropertyName("@type")]
+        [JsonProperty("@id")]
+        public string Id { get; set; }
+
+        [JsonProperty("@type")]
         public string Type { get; set; }
 
-        [SerializationPropertyName("ESRBRating")]
-        public string EsrbRating { get; set; }
+        [JsonProperty("blurredHash")]
+        public string BlurredHash { get; set; }
 
-        [SerializationPropertyName("ESRBContent")]
-        public string EsrbContent { get; set; }
-
-        [SerializationPropertyName("matureContent")]
-        public bool MatureContent { get; set; }
+        [JsonProperty("estimatedColor")]
+        public string EstimatedColor { get; set; }
     }
 
-    public class ProductResponseAttribute
+    public class ProductTaxon
     {
-        [SerializationPropertyName("@type")]
-        public AttributeType Type { get; set; }
+        [JsonProperty("@id")]
+        public string Id { get; set; }
 
-        [SerializationPropertyName("id")]
-        public int Id { get; set; }
+        [JsonProperty("@type")]
+        public string Type { get; set; }
 
-        [SerializationPropertyName("localeCode")]
-        public Locale LocaleCode { get; set; }
+        [JsonProperty("taxon")]
+        public Taxon Taxon { get; set; }
+    }
 
-        [SerializationPropertyName("type")]
-        public TypeEnum AttributeType { get; set; }
+    public class Taxon
+    {
+        [JsonProperty("@id")]
+        public string Id { get; set; }
 
-        [SerializationPropertyName("code")]
+        [JsonProperty("@type")]
+        public string Type { get; set; }
+
+        [JsonProperty("code")]
         public string Code { get; set; }
 
-        // This property is sometimes a string, array of strings or property so we have to fix it
-        [SerializationPropertyName("value"), JsonConverter(typeof(SingleValueArrayConverter<string>))]
-        public string[] Value { get; set; }
+        [JsonProperty("position")]
+        public long Position { get; set; }
 
-        [SerializationPropertyName("attribute_id")]
-        public int AttributeId { get; set; }
-
-        [JsonProperty("configuration", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(ConfigurationClassConverter))]
-        public ProductResponseAttributeConfiguration Configuration { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 
-    public class ProductResponseAttributeConfiguration
+    public class Publisher
     {
-        [JsonProperty("choices", NullValueHandling = NullValueHandling.Ignore), JsonConverter(typeof(AttributeConfigurationConverter))]
-        public Dictionary<string, Dictionary<Locale, string>> Choices { get; set; }
+        [JsonProperty("@id")]
+        public string Id { get; set; }
 
-        [SerializationPropertyName("multiple")]
-        public bool Multiple { get; set; }
-
-        [SerializationPropertyName("min")]
-        public int? Min { get; set; }
-
-        [SerializationPropertyName("max")]
-        public int? Max { get; set; }
-    }
-
-    public class ProductResponseTranslationData
-    {
-        [SerializationPropertyName("@id")]
-        public string EndpointId { get; set; }
-
-        [SerializationPropertyName("@type")]
+        [JsonProperty("@type")]
         public string Type { get; set; }
 
-        [SerializationPropertyName("shortDescription")]
-        public string ShortDescription { get; set; }
+        [JsonProperty("id")]
+        public int PublisherId { get; set; }
 
-        [SerializationPropertyName("id")]
-        public int Id { get; set; }
-
-        [SerializationPropertyName("name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        [SerializationPropertyName("slug")]
+        [JsonProperty("code")]
+        public string Code { get; set; }
+
+        [JsonProperty("color")]
+        public object Color { get; set; }
+
+        [JsonProperty("image")]
+        public object Image { get; set; }
+    }
+
+    public class Review
+    {
+        [JsonProperty("@id")]
+        public string Id { get; set; }
+
+        [JsonProperty("@type")]
+        [JsonConverter(typeof(ReviewTypeConverter))]
+        public ReviewType Type { get; set; }
+
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
+    }
+
+    public class TopReview
+    {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
+
+        [JsonProperty("rating")]
+        public long Rating { get; set; }
+
+        [JsonProperty("comment")]
+        public string Comment { get; set; }
+
+        [JsonProperty("displayName")]
+        public string DisplayName { get; set; }
+
+        [JsonProperty("createdAt")]
+        public DateTimeOffset CreatedAt { get; set; }
+    }
+
+    public partial class JastproductresponseTranslations
+    {
+        [JsonProperty("en_US")]
+        public PurpleEnUs EnUs { get; set; }
+    }
+
+    public partial class PurpleEnUs
+    {
+        [JsonProperty("@id")]
+        public string Id { get; set; }
+
+        [JsonProperty("@type")]
+        public string Type { get; set; }
+
+        [JsonProperty("shortDescription")]
+        public string ShortDescription { get; set; }
+
+        [JsonProperty("id")]
+        public long EnUsId { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("slug")]
         public string Slug { get; set; }
 
-        [SerializationPropertyName("description")]
+        [JsonProperty("description")]
         public string Description { get; set; }
     }
 
     public class ProductResponseVariant
     {
-        [SerializationPropertyName("@id")]
-        public string EndpointId { get; set; }
+        [JsonProperty("@id")]
+        public string Id { get; set; }
 
-        [SerializationPropertyName("@type")]
-        public ProductVariantType Type { get; set; }
+        [JsonProperty("@type")]
+        public string Type { get; set; }
 
-        [SerializationPropertyName("game")]
-        public string Game { get; set; }
+        [JsonProperty("promotionEndsAt")]
+        public DateTimeOffset? PromotionEndsAt { get; set; }
 
-        [SerializationPropertyName("@channelPricings")]
-        public Dictionary<string, ChannelPricing> ChannelPricings { get; set; }
+        [JsonProperty("channelPricings")]
+        public ChannelPricings ChannelPricings { get; set; }
 
-        [SerializationPropertyName("id")]
-        public int Id { get; set; }
+        [JsonProperty("id")]
+        public long VariantId { get; set; }
 
-        [SerializationPropertyName("@translations")]
-        public Dictionary<Locale, ProductResponseVariantTranslation> Translations { get; set; }
+        [JsonProperty("translations")]
+        public VariantTranslations Translations { get; set; }
 
-        [SerializationPropertyName("inStock")]
-        public bool InStock { get; set; }
+        [JsonProperty("price")]
+        public long Price { get; set; }
 
-        [SerializationPropertyName("price")]
-        public int Price { get; set; }
+        [JsonProperty("originalPrice")]
+        public long OriginalPrice { get; set; }
 
-        [SerializationPropertyName("originalPrice")]
-        public int OriginalPrice { get; set; }
-
-        [SerializationPropertyName("discount")]
+        [JsonProperty("discount")]
         public double Discount { get; set; }
 
-        [SerializationPropertyName("isFree")]
+        [JsonProperty("isFree")]
         public bool IsFree { get; set; }
     }
 
-    public class ProductResponseVariantTranslation
+    public partial class ChannelPricings
     {
-        [SerializationPropertyName("@id")]
-        public string ApiEndpoint { get; set; }
-
-        [SerializationPropertyName("@type")]
-        public TranslationType Type { get; set; }
-
-        [SerializationPropertyName("id")]
-        public int Id { get; set; }
-
-        [SerializationPropertyName("@name")]
-        public string Name { get; set; }
-
-        [SerializationPropertyName("locale")]
-        public Locale Locale { get; set; }
+        [JsonProperty("JASTUSA")]
+        public Jastusa Jastusa { get; set; }
     }
 
-    public enum AttributeType
+    public partial class Jastusa
     {
-        ProductAttributeValue
-    };
+        [JsonProperty("@type")]
+        public string Type { get; set; }
 
-    public enum ImageType
+        [JsonProperty("channelCode")]
+        public string ChannelCode { get; set; }
+
+        [JsonProperty("price")]
+        public long Price { get; set; }
+
+        [JsonProperty("originalPrice")]
+        public object OriginalPrice { get; set; }
+    }
+
+    public partial class VariantTranslations
     {
-        ProductImage
-    };
+        [JsonProperty("en_US")]
+        public FluffyEnUs EnUs { get; set; }
+    }
 
-    //public enum Locale
-    //{
-    //    En_Us,
-    //    ja,
-    //    Zh_Hans,
-    //    Zh_Hant
-    //};
-
-    public enum ProductVariantType
+    public partial class FluffyEnUs
     {
-        ProductVariant
-    };
+        [JsonProperty("@id")]
+        public string Id { get; set; }
+
+        [JsonProperty("@type")]
+        public string Type { get; set; }
+
+        [JsonProperty("id")]
+        public long EnUsId { get; set; }
+
+        [JsonProperty("name")]
+        public object Name { get; set; }
+
+        [JsonProperty("locale")]
+        public string Locale { get; set; }
+    }
 
     public enum TypeEnum
     {
-        Select,
-        Text,
-        Textarea
+        Empty,
+        ProductLibraryCapsule,
+        ProductMainCapsule,
+        ProductVerticalCapsule,
+        ProductBackground,
+        TailPackageThumbnailHomepage,
+        WideBannerThumbnailCatalog
     };
 
-    public class AttributeConfigurationConverter : JsonConverter
+    public enum ImageType { ProductImage };
+
+    public enum ReviewType { ProductReview };
+
+
+    internal class ImageTypeConverter : JsonConverter
     {
+        public override bool CanConvert(Type t) => t == typeof(ImageType) || t == typeof(ImageType?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            if (value == "ProductImage")
+            {
+                return ImageType.ProductImage;
+            }
+            throw new Exception("Cannot unmarshal type ImageType");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (ImageType)untypedValue;
+            if (value == ImageType.ProductImage)
+            {
+                serializer.Serialize(writer, "ProductImage");
+                return;
+            }
+            throw new Exception("Cannot marshal type ImageType");
+        }
+
+        public static readonly ImageTypeConverter Singleton = new ImageTypeConverter();
+    }
+
+    internal class TypeEnumConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(TypeEnum) || t == typeof(TypeEnum?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            switch (value)
+            {
+                case "":
+                    return TypeEnum.Empty;
+                case "PRODUCT_LIBRARY_CAPSULE":
+                    return TypeEnum.ProductLibraryCapsule;
+                case "PRODUCT_MAIN_CAPSULE":
+                    return TypeEnum.ProductMainCapsule;
+                case "PRODUCT_VERTICAL_CAPSULE":
+                    return TypeEnum.ProductVerticalCapsule;
+                case "PRODUCT_BACKGROUND":
+                    return TypeEnum.ProductBackground;
+                case "TAIL_PACKAGE_THUMBNAIL_HOMEPAGE":
+                    return TypeEnum.TailPackageThumbnailHomepage;
+                case "WIDE_BANNER_THUMBNAIL_CATALOG":
+                    return TypeEnum.WideBannerThumbnailCatalog;
+            }
+
+            throw new Exception("Cannot unmarshal type TypeEnum");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (TypeEnum)untypedValue;
+            switch (value)
+            {
+                case TypeEnum.Empty:
+                    serializer.Serialize(writer, "");
+                    return;
+                case TypeEnum.ProductLibraryCapsule:
+                    serializer.Serialize(writer, "PRODUCT_LIBRARY_CAPSULE");
+                    return;
+                case TypeEnum.ProductMainCapsule:
+                    serializer.Serialize(writer, "PRODUCT_MAIN_CAPSULE");
+                    return;
+                case TypeEnum.ProductVerticalCapsule:
+                    serializer.Serialize(writer, "PRODUCT_VERTICAL_CAPSULE");
+                    return;
+            }
+            throw new Exception("Cannot marshal type TypeEnum");
+        }
+
+        public static readonly TypeEnumConverter Singleton = new TypeEnumConverter();
+    }
+
+    internal class ReviewTypeConverter : JsonConverter
+    {
+        public override bool CanConvert(Type t) => t == typeof(ReviewType) || t == typeof(ReviewType?);
+
+        public override object ReadJson(JsonReader reader, Type t, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.Null) return null;
+            var value = serializer.Deserialize<string>(reader);
+            if (value == "ProductReview")
+            {
+                return ReviewType.ProductReview;
+            }
+            throw new Exception("Cannot unmarshal type ReviewType");
+        }
+
+        public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)
+        {
+            if (untypedValue == null)
+            {
+                serializer.Serialize(writer, null);
+                return;
+            }
+            var value = (ReviewType)untypedValue;
+            if (value == ReviewType.ProductReview)
+            {
+                serializer.Serialize(writer, "ProductReview");
+                return;
+            }
+            throw new Exception("Cannot marshal type ReviewType");
+        }
+
+        public static readonly ReviewTypeConverter Singleton = new ReviewTypeConverter();
+    }
+
+    public class DateTimeConverter : JsonConverter
+    {
+        private const string Format = "yyyy-MM-dd HH:mm:ss";
+
         public override bool CanConvert(Type objectType)
         {
-            return objectType == typeof(Dictionary<string, Dictionary<Locale, string>>);
+            return objectType == typeof(DateTime) || objectType == typeof(DateTime?);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var result = new Dictionary<string, Dictionary<Locale, string>>();
-            var jsonObject = JObject.Load(reader);
-            foreach (var property in jsonObject.Properties())
-            {
-                var currentKey = property.Name;
-                var innerToken = property.Value;
-                if (innerToken.Type == JTokenType.Object)
-                {
-                    var innerDictionary = innerToken.ToObject<Dictionary<string, string>>();
-                    var localeDictionary = new Dictionary<Locale, string>();
-                    foreach (var innerProperty in innerDictionary)
-                    {
-                        if (Enum.TryParse<Locale>(innerProperty.Key, true, out var locale))
-                        {
-                            localeDictionary[locale] = innerProperty.Value;
-                        }
-                    }
+            if (reader.Value is null)
+                return objectType == typeof(DateTime?) ? (DateTime?)null : default(DateTime);
 
-                    result[currentKey] = localeDictionary;
-                }
-            }
-
-            return result;
+            return DateTime.ParseExact(
+                (string)reader.Value,
+                Format,
+                CultureInfo.InvariantCulture);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            if (value == null)
+            {
+                writer.WriteNull();
+                return;
+            }
+
+            writer.WriteValue(((DateTime)value).ToString(Format));
         }
     }
 
-    internal class ConfigurationClassConverter : JsonConverter
-    {
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(ProductResponseAttributeConfiguration);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.StartArray)
-            {
-                reader.Skip();
-                return new ProductResponseAttributeConfiguration();
-            }
-            else if (reader.TokenType == JsonToken.StartObject)
-            {
-                return serializer.Deserialize<ProductResponseAttributeConfiguration>(reader);
-            }
-
-            throw new Exception("Cannot unmarshal type ConfigurationClass");
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            serializer.Serialize(writer, value);
-        }
-    }
-
-    internal class SingleValueArrayConverter<T> : JsonConverter
-    {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            serializer.Serialize(writer, value);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.TokenType == JsonToken.StartObject)
-            {
-                // Skip the entire object
-                while (reader.Read())
-                {
-                    if (reader.TokenType == JsonToken.EndObject)
-                    {
-                        break;
-                    }
-                }
-
-                return new T[] { };
-            }
-
-            if (reader.TokenType == JsonToken.StartArray)
-            {
-                return serializer.Deserialize<T[]>(reader);
-            }
-
-            return new T[] { serializer.Deserialize<T>(reader) };
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof(List<T>);
-        }
-    }
 
 }

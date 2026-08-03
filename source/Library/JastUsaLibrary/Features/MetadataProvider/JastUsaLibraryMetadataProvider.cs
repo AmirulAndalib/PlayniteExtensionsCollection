@@ -31,7 +31,9 @@ namespace JastUsaLibrary.Features.MetadataProvider
             }
 
             var url = string.Format(@"https://app.jaststore.com/api/v2/shop/products/{0}?localeCode=en_US", productCode);
-            var downloadedString = HttpRequestFactory.GetHttpRequest().WithUrl(url).DownloadString();
+            var downloadedString = HttpRequestFactory.GetHttpRequest()
+                .WithUrl(url)
+                .DownloadString();
             if (!downloadedString.IsSuccess)
             {
                 return new GameMetadata();
@@ -50,135 +52,56 @@ namespace JastUsaLibrary.Features.MetadataProvider
                 metadata.ReleaseDate = new ReleaseDate(productResponse.OriginalReleaseDate.Value);
             }
 
-            var developer = GetSingleAttributeMatch(productResponse, "studio");
-            if (!developer.IsNullOrEmpty())
+            var developersNames = productResponse.Studios?.Select(x => x.Name).ToList();
+            if (developersNames.HasItems())
             {
-                metadata.Developers = new HashSet<MetadataProperty> { new MetadataNameProperty(developer) };
+                metadata.Developers = new HashSet<MetadataProperty>(developersNames.Select(x => new MetadataNameProperty(x)));
             }
 
-            var publisher = GetSingleAttributeMatch(productResponse, "publisher");
-            if (!publisher.IsNullOrEmpty())
+            var publishersNames = productResponse.Publishers?.Select(x => x.Name).ToList();
+            if (publishersNames.HasItems())
             {
-                metadata.Publishers = new HashSet<MetadataProperty> { new MetadataNameProperty(publisher) };
+                metadata.Publishers = new HashSet<MetadataProperty>(publishersNames.Select(x => new MetadataNameProperty(x)));
             }
 
             var coverImage = productResponse.Images
-                .FirstOrDefault(x => x.ImageType.StartsWith("TAIL_PACKAGE_THUMBNAIL_PRODUCT", StringComparison.InvariantCultureIgnoreCase));
+                .FirstOrDefault(x => x.ImageType == TypeEnum.ProductLibraryCapsule);
             if (coverImage != null)
             {
                 metadata.CoverImage = new MetadataFile(string.Format(JastUsaWebUrls.JastMediaUrlTemplate, coverImage.Path));
             }
 
-            var nonStoreScreenshotsImageType = new List<string>
-            {
-                "TAIL_PACKAGE_THUMBNAIL_PRODUCT",
-                "TALL_SEARCH_CATALOG",
-                "PRODUCT_MINIATURE"
-            };
-
             var backgroundImage = productResponse.Images
-                .FirstOrDefault(x => x.ImageType.StartsWith("BACKGROUND_PRODUCT", StringComparison.InvariantCultureIgnoreCase))
+                .FirstOrDefault(x => x.ImageType == TypeEnum.ProductBackground)
                                ?? productResponse.Images
-                .FirstOrDefault(x => !nonStoreScreenshotsImageType.Any(imgType => x.ImageType.StartsWith(imgType, StringComparison.InvariantCultureIgnoreCase)));
+                .FirstOrDefault(x => x.ImageType == TypeEnum.Empty);
             if (backgroundImage != null)
             {
                 metadata.BackgroundImage = new MetadataFile(string.Format(JastUsaWebUrls.JastMediaUrlTemplate, backgroundImage.Path));
             }
 
             metadata.Links = new List<Link> { new Link("Store", @"https://jaststore.com/games/" + productResponse.Code) };
-            var urlAttributes = productResponse.Attributes.Where(x => x.Code.EndsWith("_url") && x.Value.HasItems() &&
-                                x.Value.First().StartsWith("http"));
-            if (urlAttributes.HasItems())
+
+            var supportsWindowsPlatform = productResponse.ProductTaxons.Any(x => x.Taxon.Code == "windows");
+            var supportsLinuxPlatform = productResponse.ProductTaxons.Any(x => x.Taxon.Code == "linux");
+            var supportsMacPlatform = productResponse.ProductTaxons.Any(x => x.Taxon.Code == "mac");
+
+            if (supportsWindowsPlatform)
             {
-                metadata.Links.AddRange(urlAttributes.Select(x => new Link(x.Code.Replace("_", " ").ToTitleCase(), x.Value.First())));
+                metadata.Platforms.Add(new MetadataSpecProperty("pc_windows"));
             }
 
-            var tags = GetMultipleAttributeMatch(productResponse, "tag");
-            if (tags.HasItems())
+            if (supportsMacPlatform)
             {
-                metadata.Tags = tags.Select(x => new MetadataNameProperty(x.ToTitleCase())).Cast<MetadataProperty>().ToHashSet();
+                metadata.Platforms.Add(new MetadataSpecProperty("macintosh"));
             }
 
-            var platforms = GetMultipleAttributeMatch(productResponse, "platform");
-            if (platforms.HasItems())
+            if (supportsLinuxPlatform)
             {
-                var platformToSpecIdMapper = new Dictionary<string, string>
-                {
-                    {"Windows", "pc_windows" },
-                    {"Mac", "macintosh" },
-                    {"Linux", "pc_linux" }
-                };
-
-                foreach (var platform in platforms)
-                {
-                    if (platformToSpecIdMapper.TryGetValue(platform, out var platformSpecId))
-                    {
-                        metadata.Platforms.Add(new MetadataSpecProperty(platformSpecId));
-                    }
-                }
+                metadata.Platforms.Add(new MetadataSpecProperty("pc_linux"));
             }
 
             return metadata;
-        }
-
-        private string GetSingleAttributeMatch(ProductResponse productResponse, string attributeName, Locale locale = Locale.En_Us)
-        {
-            var attribute = productResponse.Attributes.FirstOrDefault(x => x.Code == attributeName && x.LocaleCode == locale);
-            if (attribute is null || !attribute.Value.HasItems())
-            {
-                return null;
-            }
-
-            var attributeValue = attribute.Value.First();
-            var attributeMatch = attribute.Configuration.Choices.FirstOrDefault(x => x.Key == attributeValue);
-            if (attributeMatch.Equals(default(KeyValuePair<string, Dictionary<Locale, string>>)))
-            {
-                return null;
-            }
-
-            var localizedChoice = attributeMatch.Value.FirstOrDefault(x => x.Key == locale);
-            if (!attributeMatch.Equals(default(KeyValuePair<Locale, string>)))
-            {
-                return localizedChoice.Value;
-            }
-
-            return null;
-        }
-
-        private List<string> GetMultipleAttributeMatch(ProductResponse productResponse, string attributeName, Locale locale = Locale.En_Us)
-        {
-            var values = new List<string>();
-            var attribute = productResponse.Attributes.FirstOrDefault(x => x.Code == attributeName && x.LocaleCode == locale);
-            if (attribute is null || !attribute.Value.HasItems())
-            {
-                return values;
-            }
-
-            var matches = attribute.Configuration.Choices.Where(x => attribute.Value.Any(y => y == x.Key));
-            if (!matches.HasItems())
-            {
-                return values;
-            }
-
-            var maxValue = attribute.Configuration.Max;
-            foreach (var item in matches)
-            {
-                if (maxValue.HasValue && values.Count >= maxValue && values.Count != 0)
-                {
-                    break;
-                }
-
-                foreach (var subItem in item.Value)
-                {
-                    if (subItem.Key == locale)
-                    {
-                        values.Add(subItem.Value);
-                        break;
-                    }
-                }
-            }
-
-            return values;
         }
     }
 
