@@ -20,6 +20,11 @@ namespace JastUsaLibrary.JastUsaIntegration.Infrastructure.Persistence
 
         public AuthenticationPersistence(string authenticationDirectory)
         {
+            if (authenticationDirectory.IsNullOrEmpty())
+            {
+                throw new ArgumentException("Authentication directory cannot be null or empty.", nameof(authenticationDirectory));
+            }
+
             _authenticationPath = Path.Combine(authenticationDirectory, "authentication.json");
         }
 

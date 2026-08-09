@@ -2,6 +2,7 @@
 using JastUsaLibrary.JastLibraryCacheService.Application;
 using JastUsaLibrary.Services.JastLibraryCacheService.Entities;
 using Playnite.SDK;
+using PluginsCommon;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace JastUsaLibrary.Services.JastLibraryCacheService.Infrastructure
         private readonly IEntityRepository<GameCache, int> _repository;
         public LibraryCachePersistenceJson(string storagePath, ILogger logger)
         {
+            if (string.IsNullOrEmpty(storagePath))
+            {
+                throw new ArgumentException("Storage path cannot be null or empty.", nameof(storagePath));
+            }
+
+            Guard.Against.Null(logger, nameof(logger));
             _repository = new EntityJsonRepository<GameCache, int>(logger, storagePath, "jastUsaLibraryCache");
         }
 

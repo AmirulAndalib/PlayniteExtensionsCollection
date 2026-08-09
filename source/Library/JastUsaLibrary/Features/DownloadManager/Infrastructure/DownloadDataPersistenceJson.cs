@@ -19,7 +19,12 @@ namespace JastUsaLibrary.Features.DownloadManager.Infrastructure
 
         public DownloadDataPersistenceJson(ILogger logger, string storageDirectory)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            if (storageDirectory.IsNullOrWhiteSpace())
+            {
+                throw new ArgumentException("Storage directory cannot be null or empty.", nameof(storageDirectory));
+            }
+
             _jsonFilePath = Path.Combine(storageDirectory, "downloadsData.json");
             if (!FileSystem.DirectoryExists(storageDirectory))
             {

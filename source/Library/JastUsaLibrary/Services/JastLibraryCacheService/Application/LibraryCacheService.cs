@@ -20,8 +20,8 @@ namespace JastUsaLibrary.JastLibraryCacheService.Application
 
         public LibraryCacheService(IPlayniteAPI playniteApi, ILibraryCachePersistence libraryCachePersistence, Guid pluginId)
         {
-            _playniteApi = playniteApi;
-            _libraryCachePersistence = libraryCachePersistence;
+            _playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
+            _libraryCachePersistence = libraryCachePersistence ?? throw new ArgumentNullException(nameof(libraryCachePersistence));
             _pluginId = pluginId;
         }
 

@@ -21,7 +21,7 @@ namespace JastUsaLibrary.Features.InstallationHandler.Infrastructure
 
         public ArchiveInstallerHandler(IInstallerDetector detector)
         {
-            _detector = detector;
+            _detector = detector ?? throw new ArgumentNullException(nameof(detector));
         }
 
         public bool CanHandle(string filePath, string content, ExecutableMetadata executableMetadata)

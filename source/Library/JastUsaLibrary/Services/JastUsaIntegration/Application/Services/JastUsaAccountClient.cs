@@ -26,9 +26,9 @@ namespace JastUsaLibrary.JastUsaIntegration.Application.Services
             JastUsaApiClient apiClient,
             IAuthenticationPersistence authenticationPersistence)
         {
-            _playniteApi = playniteApi;
-            _apiClient = apiClient;
-            _authenticationPersistence = authenticationPersistence;
+            _playniteApi = playniteApi ?? throw new ArgumentNullException(nameof(playniteApi));
+            _apiClient = apiClient ?? throw new ArgumentNullException(nameof(apiClient));
+            _authenticationPersistence = authenticationPersistence ?? throw new ArgumentNullException(nameof(authenticationPersistence));
         }
 
         public bool GetIsUserLoggedIn()
