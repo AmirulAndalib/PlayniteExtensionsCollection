@@ -159,41 +159,6 @@ namespace JastUsaLibrary
             }
         }
 
-#pragma warning disable CS0618 // Disable warning for obsolete elements
-        private void MigrateOldGameInstallCache()
-        {
-            try
-            {
-                var oldCacheList = settings.Settings.LibraryCache.Values.ToList();
-                if (!oldCacheList.HasItems())
-                {
-                    return;
-                }
-
-                var pluginGamesByGameId = PlayniteApi.Database.Games
-                    .Where(g => g.PluginId == this.Id)
-                    .ToDictionary(g => g.GameId, g => g);
-
-                foreach (var oldCache in oldCacheList)
-                {
-                    if (oldCache.Program != null && pluginGamesByGameId.TryGetValue(oldCache.GameId, out var matchingGame))
-                    {
-                        _gameInstallationManagerService.ApplyProgramToGameCache(matchingGame, oldCache.Program);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e, "Error during install cache migration");
-            }
-            finally
-            {
-                settings.Settings.LibraryCache.Clear();
-                settings.SaveSettings();
-            }
-        }
-#pragma warning restore CS0618
-
         public override IEnumerable<GameMetadata> GetGames(LibraryGetGamesArgs args)
         {
             var games = new List<GameMetadata>();
@@ -307,7 +272,6 @@ namespace JastUsaLibrary
         public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
         {
             settings.UpgradeSettings();
-            MigrateOldGameInstallCache();
             if (settings.Settings.StartDownloadsOnStartup)
             {
                 _ = Task.Run(() => _downloadsManager.StartDownloadsAsync(false, false));

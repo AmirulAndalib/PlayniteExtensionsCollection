@@ -59,10 +59,6 @@ namespace JastUsaLibrary
 
         private DownloadSettings _extrasDownloadSettings;
         public DownloadSettings ExtrasDownloadSettings { get => _extrasDownloadSettings; set => SetValue(ref _extrasDownloadSettings, value); }
-
-        private Dictionary<string, OldGameCache> _libraryCache = new Dictionary<string, OldGameCache>();
-        [Obsolete("The _libraryCache field is deprecated. Cache is now handled by the GameInstallationManager and JastLibraryCacheService")]
-        public Dictionary<string, OldGameCache> LibraryCache { get => _libraryCache; set => SetValue(ref _libraryCache, value); }
     }
 
     public class JastUsaLibrarySettingsViewModel : ObservableObject, ISettings
