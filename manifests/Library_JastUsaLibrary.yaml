@@ -186,3 +186,9 @@ Packages:
     Changelog:
     - 'Fixed: Crash when user login fails'
     - 'Fixed: Failing to login and other network operations due to site migration by JAST USA (By Dawnflare)'
+  - Version: 1.28
+    RequiredApiVersion: 6.9.0
+    ReleaseDate: 2026-08-08
+    PackageUrl: https://github.com/darklinkpower/PlayniteExtensionsCollection/releases/download/2026.08.08_82cc5fd7/JastUsaLibrary_d407a620-5953-4ca4-a25c-8194c8559381_1_28.pext
+    Changelog:
+    - 'Fixed: Failing to obtain game library and games metadata due to changes in JAST USA API'

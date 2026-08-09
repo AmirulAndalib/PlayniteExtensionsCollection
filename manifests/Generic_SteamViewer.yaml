@@ -121,3 +121,9 @@ Packages:
     PackageUrl: https://github.com/darklinkpower/PlayniteExtensionsCollection/releases/download/2026.04.30_f4b20183/Steam_Viewer_0a3edabb-065f-4056-a294-d6bc0656e2ac_3_3.pext
     Changelog:
     - 'Added: New Steam Game Actions button for custom themes. Provides quick access to common Steam actions such as Game Details, Controller Configuration, Properties, Store Page, Community Hub, Guides, Achievements, and more.'
+  - Version: 3.4
+    RequiredApiVersion: 6.11.0
+    ReleaseDate: 2026-08-08
+    PackageUrl: https://github.com/darklinkpower/PlayniteExtensionsCollection/releases/download/2026.08.08_82cc5fd7/Steam_Viewer_0a3edabb-065f-4056-a294-d6bc0656e2ac_3_4.pext
+    Changelog:
+    - 'Fixed: Steam launch button displaying in cases where first displayed game after launching Playnite is not a Steam game'
