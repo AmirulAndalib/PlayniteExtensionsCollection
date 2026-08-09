@@ -47,6 +47,7 @@ namespace SteamShortcuts.Presentation
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             SettingsModel = settingsViewModel ?? throw new ArgumentNullException(nameof(settingsViewModel));
             DataContext = this;
+            Visibility = Visibility.Collapsed;
             if (PlayniteApi.ApplicationInfo.Mode == ApplicationMode.Desktop)
             {
                 _activeViewAtCreation = PlayniteApi.MainView.ActiveDesktopView;
